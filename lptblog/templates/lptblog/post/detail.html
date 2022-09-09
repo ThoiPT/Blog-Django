@@ -1,0 +1,17 @@
+{% extends 'lptblog/base.html' %}
+
+{% block content %}
+
+    <h1>{{ post.title }}</h1>
+
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+
+    {{ post.body|linebreaks }}
+
+    <p>
+        <a href="{% url "lptblog:post_share" post.id %}">Chia sẻ</a>
+    </p>
+
+{% endblock %}
