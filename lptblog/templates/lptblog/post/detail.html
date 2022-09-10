@@ -10,8 +10,35 @@
 
     {{ post.body|linebreaks }}
 
-    <p>
-        <a href="{% url "lptblog:post_share" post.id %}">Chia sẻ</a>
-    </p>
+    <!-- Hiển thị bình luận -->
+    {% with comments.count as total_comments %}
+        <h2>
+            {{ total_comments }} Bình luận
+        </h2>
+    {% endwith %}
 
+    {% for comment in comments %}
+        <div class="comment">
+            <p class="info">
+                Bình luận {{ forloop.counter }} bởi {{ comment.name }} {{ comment.created }}
+            </p>
+            {{ comment.body|linebreaks }}
+        </div>
+
+    {% empty %}
+        <p>Không có bình luận</p>
+    {% endfor %}
+
+    {% if new_comment %}
+        <h2>Đã thêm bình luận mới</h2>
+    {% else %}
+        <h2>Bình luận cho bài viết</h2>
+        <form method="POST">
+            {{ comment_form.as_p }}
+            {% csrf_token %}
+            <p>
+                <input type="submit" value="Add Commemt">
+            </p>
+        </form>
+    {% endif %}
 {% endblock %}
